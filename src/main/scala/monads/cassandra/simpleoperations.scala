@@ -6,6 +6,7 @@ import me.prettyprint.hector.api.factory.HFactory
 import me.prettyprint.cassandra.serializers.StringSerializer
 import scala.collection.JavaConverters._
 import me.prettyprint.hector.api.mutation.Mutator
+import monads.cassandra.Composition_After.ReaderMonad
 
 object simpleoperations {
 
@@ -29,17 +30,31 @@ object simpleoperations {
       keyspace =>{
         //todo
       }
+
+    implicit def mutationReaderToOperation[B](m: ReaderMonad[Mutator[String], B]): ReaderMonad[Keyspace, B] = new ReaderMonad[Keyspace, B] {
+      def apply(keyspace: Keyspace): B = {
+        val mutator = HFactory.createMutator(keyspace, StringSerializer.get())
+        val res = m(mutator)
+        mutator.execute()
+        res
+      }
+    }
+    implicit def mutationToOperation[B](m: Mutator[String] => B): ReaderMonad[Keyspace, B] = mutationReaderToOperation(m)
+
   }
 
   object blocking {
 
-    def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*)(implicit mutator: Mutator[String]) {
-      nonblocking.Put(columnFamilyId, rowId, kvPairs: _*)(mutator)
+    def Get(columnFamilyId: String, rowId: String, columnNames: String*)
+           (implicit keyspace: Keyspace): Map[String, String] =
+      nonblocking.Get(columnFamilyId, rowId, columnNames: _*)(keyspace)
+
+
+    def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*)
+           (implicit keyspace: Keyspace) {
+      nonblocking.mutationToOperation(nonblocking.Put(columnFamilyId, rowId, kvPairs: _*))(keyspace)
     }
 
-    def Get(columnFamilyId: String, rowId: String, columnNames: String*)(implicit keyspace: Keyspace): Map[String, String] = {
-      nonblocking.Get(columnFamilyId, rowId, columnNames: _*)(keyspace)
-    }
   }
 
 }

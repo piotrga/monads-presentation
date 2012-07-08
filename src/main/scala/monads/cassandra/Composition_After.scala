@@ -45,6 +45,13 @@ object Composition_After {
     def apply(k: C) = f(k)
   }
 
+  implicit def toReader[A](o:Option[A]) = new{
+    def flatMap[C,B](f: A => ReaderMonad[C, B]) : ReaderMonad[C, Option[B]] =  o match {
+      case None => (c:C) => None
+      case Some(a) => f(a).map(Some(_))
+    }
+  }
+
 
   trait ReaderMonad[C, A] extends Function[C, A] { self =>
     def apply(k: C): A
@@ -54,16 +61,18 @@ object Composition_After {
     def withFilter(p : A=> Boolean) :ReaderMonad[C, A] = null
   }
 
+  import simpleoperations.nonblocking._
   import crud.nonblocking._
+
   import TypeClasses_After.PersonCO
 
-  val update = Read[Person]("123") flatMap { maybePerson => Save(maybePerson.get copy (name = "Smith") ) }
-  update(keyspace)
+  val Update = Read[Person]("123") flatMap { maybePerson => Save(maybePerson.get copy (name = "Smith") ) }
+  Update(keyspace)
 
   def Update[T: CassandraObject](id: String, f: T => T) = for {
     maybePerson <- Read[T](id)
     _ <- Save(f(maybePerson.get)) if maybePerson.isDefined
-  } yield maybePerson.isDefined
+  } yield (maybePerson map f)
 
 
   Update[Person]("123", _.copy(name = "Smith"))

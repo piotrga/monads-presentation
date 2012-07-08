@@ -6,18 +6,20 @@ import me.prettyprint.hector.api.mutation.Mutator
 
 object TypeClasses_After {
   implicit val keyspace: Keyspace = null
-  implicit val mutator: Mutator[String] = null
 
   trait CassandraObject[T] {
     def columnFamily: String
-
+    def columns: Seq[String]
     def rowId(o: T): String
-
     def marshall(o: T): List[(String, String)]
+    def unmarshall(f: Map[String,String]): Option[T]
   }
 
   implicit object PersonCO extends CassandraObject[Person] {
     def columnFamily = "people"
+
+    /*...*/
+
 
     def rowId(p: Person): String = {
       p.id
@@ -29,6 +31,10 @@ object TypeClasses_After {
       "email" -> p.email,
       "age" -> p.age.toString
     )
+
+    def unmarshall(f:Map[String,String]): Option[Person] = None
+    def columns: Seq[String] = Nil
+
   }
 
   import simpleoperations.blocking._
