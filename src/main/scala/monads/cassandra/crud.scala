@@ -19,7 +19,7 @@ object crud{
     import simpleoperations.nonblocking.mutationToOperation
 
     def Save[T](t: T)(implicit keyspace: Keyspace, cas: CassandraObject[T])  = mutationToOperation(nonblocking.Save(t)(cas))(keyspace)
-    def Read[T](id: String)(implicit keyspace: Keyspace, cas: CassandraObject[T]) = nonblocking.Read(id)(cas)(keyspace)
+    def Read[T](id: String)(implicit keyspace: Keyspace, cas: CassandraObject[T]) : Option[T] = nonblocking.Read(id)(cas)(keyspace)
 
   }
 }

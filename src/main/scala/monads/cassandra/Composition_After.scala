@@ -2,6 +2,10 @@ package monads.cassandra
 
 import me.prettyprint.hector.api.Keyspace
 import monads.cassandra.TypeClasses_After.CassandraObject
+import akka.util.Timeout
+import monads.cassandra.crud.nonblocking._
+import monads.cassandra.Person
+import scala.Some
 
 object Composition_After {
 
@@ -58,7 +62,6 @@ object Composition_After {
     def >>[B](action2: ReaderMonad[C, B]): ReaderMonad[C, B] = flatMap(_ => action2)
     def flatMap[B](f: A => ReaderMonad[C, B]): ReaderMonad[C, B] = (k: C) => f(self(k))(k)
     def map[B](f: A => B): ReaderMonad[C, B] = (k: C) => f(self(k))
-    def withFilter(p : A=> Boolean) :ReaderMonad[C, A] = null
   }
 
   import simpleoperations.nonblocking._
@@ -69,14 +72,40 @@ object Composition_After {
   val Update = Read[Person]("123") flatMap { maybePerson => Save(maybePerson.get copy (name = "Smith") ) }
   Update(keyspace)
 
+
   def Update[T: CassandraObject](id: String, f: T => T) = for {
     maybePerson <- Read[T](id)
     _ <- Save(f(maybePerson.get)) if maybePerson.isDefined
   } yield (maybePerson map f)
 
+  Update[Person]("joe-123", p => p copy(name = "Mr " + p.name))
 
-  Update[Person]("123", _.copy(name = "Smith"))
 
+  val DelteAllPeople = (k: Keyspace) => (/*...*/)
+  val InsertNewPeope = (k: Keyspace) => (/*...*/)
+
+  val refreshUsers = DelteAllPeople >> InsertNewPeope
+
+}
+
+object Composition_Ugly{
+  val cassandra = Cassandra.actor
+  implicit val timeout = Timeout(1000)
+  import akka.pattern.ask
+
+  cassandra ? Read[Person]("joe-123") onSuccess {
+    case Some(p : Person) => cassandra ! Save(p copy(name = "Mr " + p.name))
+  }
+
+
+  def update[T](id:String, f: T=>T)(implicit cas:CassandraObject[T])
+  : Keyspace => T =
+    keyspace => {
+      val p = Read[T](id)(cas)(keyspace)
+      val u = f(p.get)
+      Save(u)(cas)(null)
+      u
+    }
 
 }
 
