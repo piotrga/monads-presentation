@@ -6,6 +6,8 @@ import akka.util.Timeout
 import monads.cassandra.crud.nonblocking._
 import monads.cassandra.Person
 import scala.Some
+import akka.actor.ActorRef
+import akka.dispatch.Future
 
 object Composition_After {
 
@@ -93,17 +95,19 @@ object Composition_Ugly{
   implicit val timeout = Timeout(1000)
   import akka.pattern.ask
 
-  cassandra ? Read[Person]("joe-123") onSuccess {
-    case Some(p : Person) => cassandra ! Save(p copy(name = "Mr " + p.name))
+  def update1[T](id:String, f: T=>T)
+                (implicit cas:CassandraObject[T], cassandra : ActorRef) : Future[Any] ={
+    cassandra ? Read[T](id) flatMap {
+      case Right(Some(p : T)) => cassandra ? Save(f(p))
+    }
   }
 
-
-  def update[T](id:String, f: T=>T)(implicit cas:CassandraObject[T])
+  def update2[T](id:String, f: T=>T)(implicit cas:CassandraObject[T])
   : Keyspace => T =
     keyspace => {
       val p = Read[T](id)(cas)(keyspace)
       val u = f(p.get)
-      Save(u)(cas)(null)
+//      Save(u)(cas)(keyspace)
       u
     }
 

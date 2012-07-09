@@ -19,4 +19,7 @@ object TypeClasses {
       "age" -> p.age.toString
     )
   }
+
+  val adam = Person("adam-123", "Adam", "adam@gmail.com", 34)
+  Save(adam)
 }
