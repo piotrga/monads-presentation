@@ -19,7 +19,7 @@ object Composition {
 //  val saveBoth2 = Save(joe) chain Save(jil)
 //  saveBoth chain saveBoth2
 
-  case class Read[A](id:String) extends Action[A]{
+  case class Read[A](id:String) extends Action[Option[A]]{
     def execute(k: Keyspace) : Option[A] = null
   }
 

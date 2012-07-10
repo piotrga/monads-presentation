@@ -6,12 +6,15 @@ import akka.util.Timeout
 import monads.cassandra.crud.nonblocking._
 import monads.cassandra.Person
 import scala.Some
-import akka.actor.ActorRef
+import akka.actor.{ActorSystem, ActorRef}
 import akka.dispatch.Future
 
 object Composition_After {
 
   implicit val keyspace: Keyspace = null
+  def readAccount(id : String) : Option[Double] = Some(0)
+  implicit val system = ActorSystem("test")
+
   // Update[Person]("joe-123", _.copy(name = "Smith"))
   // val p = Read[Person]("joe-123").get
   // Save( p copy (name = "Smith") )
@@ -75,18 +78,31 @@ object Composition_After {
   Update(keyspace)
 
 
-  def Update[T: CassandraObject](id: String, f: T => T) = for {
-    maybePerson <- Read[T](id)
-    _ <- Save(f(maybePerson.get)) if maybePerson.isDefined
-  } yield (maybePerson map f)
-
-  Update[Person]("joe-123", p => p copy(name = "Mr " + p.name))
+//  def Update[T: CassandraObject](id: String, f: T => T) = for {
+//    maybePerson <- Read[T](id)
+//    _ <- Save(f(maybePerson.get)) if maybePerson.isDefined
+//  } yield (maybePerson map f)
+//
+//  Update[Person]("joe-123", p => p copy(name = "Mr " + p.name))
 
 
   val DelteAllPeople = (k: Keyspace) => (/*...*/)
   val InsertNewPeope = (k: Keyspace) => (/*...*/)
 
   val refreshUsers = DelteAllPeople >> InsertNewPeope
+
+// Futures
+  val op1 = for {
+    a <- Future{ 10 * 10 }
+    b <- Future{ a * a + 2 }
+    c <- Future{ b * a }
+  } yield a - b + c
+
+  // Option
+  val total = for {
+    balance1 <- readAccount("1")
+    balance2 <- readAccount("2")
+  } yield (balance1 + balance2)
 
 }
 
