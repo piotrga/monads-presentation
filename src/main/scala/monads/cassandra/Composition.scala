@@ -15,9 +15,10 @@ object Composition {
     def execute(k: Keyspace): A
   }
 
-//  val saveBoth = Save(joe) chain Save(jil)
-//  val saveBoth2 = Save(joe) chain Save(jil)
-//  saveBoth chain saveBoth2
+//  val DelteAllPeople : Action[Unit] = null
+//  val InsertNewPeope : Action[Unit] = null
+//
+//  val refreshUsers = DelteAllPeople chain InsertNewPeope
 
   case class Read[A](id:String) extends Action[Option[A]]{
     def execute(k: Keyspace) : Option[A] = null

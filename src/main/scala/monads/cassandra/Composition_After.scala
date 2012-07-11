@@ -92,14 +92,14 @@ object Composition_After {
   val refreshUsers = DelteAllPeople >> InsertNewPeope
 
 // Futures
-  val op1 = for {
+  val op1 : Future[Int] = for {
     a <- Future{ 10 * 10 }
     b <- Future{ a * a + 2 }
     c <- Future{ b * a }
   } yield a - b + c
 
   // Option
-  val total = for {
+  val total : Option[Double] = for {
     balance1 <- readAccount("1")
     balance2 <- readAccount("2")
   } yield (balance1 + balance2)
