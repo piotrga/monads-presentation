@@ -26,7 +26,7 @@ object simpleoperations {
         result.get().getColumns.asScala.map(kv => (kv.getName -> kv.getValue)).toMap
       }
 
-    def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*): Mutator[String] => Unit =
+    def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*): Keyspace => Unit =
       keyspace =>{
         //todo
       }
@@ -52,7 +52,8 @@ object simpleoperations {
 
     def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*)
            (implicit keyspace: Keyspace) {
-      nonblocking.mutationToOperation(nonblocking.Put(columnFamilyId, rowId, kvPairs: _*))(keyspace)
+//      nonblocking.mutationToOperation(nonblocking.Put(columnFamilyId, rowId, kvPairs: _*))(keyspace)
+      nonblocking.Put(columnFamilyId, rowId, kvPairs: _*)(keyspace)
     }
 
   }

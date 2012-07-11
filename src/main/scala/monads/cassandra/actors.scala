@@ -7,12 +7,15 @@ import monads.cassandra.crud.nonblocking._
 import akka.util.Timeout
 import akka.dispatch.Await
 import me.prettyprint.hector.api.Keyspace
+import monads.cassandra.simpleoperations.nonblocking
+import nonblocking._
 
 object actors{
   implicit val cassandra : ActorRef  = Cassandra.actor
   implicit val timeout = Timeout(10 seconds)
 
-  cassandra ! Save(Person("joe-123", "Joe Smith", "joe@smith.com", 24))
+  cassandra ! Put("PEOPLE", "jil-897", "name"->"Jil Blocks", "email"->"jil@blocks.com", "age"->"35")
+//  cassandra ! Save(Person("joe-123", "Joe Smith", "joe@smith.com", 24))
 
 //  cassandra ? Read[Person]("joe-123") onSuccess {
 //    case Some(p:Person) => println("Just read [%s]" format p)
