@@ -1,9 +1,9 @@
-package monads.cassandra
+package cassandra
 
 import me.prettyprint.hector.api.Keyspace
 import me.prettyprint.hector.api.mutation.Mutator
-import monads.cassandra.TypeClasses_After.CassandraObject
-import monads.cassandra.Composition_After.fun2Reader
+import cassandra.TypeClasses_After.CassandraObject
+import cassandra.Composition_After.fun2Reader
 
 object crud{
   object nonblocking{

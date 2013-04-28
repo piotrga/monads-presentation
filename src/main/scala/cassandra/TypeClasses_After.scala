@@ -1,6 +1,6 @@
-package monads.cassandra
+package cassandra
 
-import livedemo.Person
+import livedemo.typeclasses.Person
 import me.prettyprint.hector.api.Keyspace
 import java.io.OutputStream
 import me.prettyprint.hector.api.mutation.Mutator

@@ -1,4 +1,4 @@
-package monads.cassandra.livedemo
+package livedemo.typeclasses
 
 object _02_Numeric extends App{
   //  Numeric

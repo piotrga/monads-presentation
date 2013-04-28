@@ -1,4 +1,4 @@
-package monads.cassandra.livedemo
+package livedemo.typeclasses
 
 import java.io.{FileOutputStream, File, OutputStream}
 

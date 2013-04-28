@@ -1,4 +1,4 @@
-package monads.cassandra
+package cassandra
 
 import me.prettyprint.hector.api.Keyspace
 import me.prettyprint.hector.api.query.SliceQuery
@@ -6,7 +6,7 @@ import me.prettyprint.hector.api.factory.HFactory
 import me.prettyprint.cassandra.serializers.StringSerializer
 import scala.collection.JavaConverters._
 import me.prettyprint.hector.api.mutation.Mutator
-import monads.cassandra.Composition_After.ReaderMonad
+import cassandra.Composition_After.ReaderMonad
 
 object simpleoperations {
 
@@ -39,6 +39,7 @@ object simpleoperations {
         res
       }
     }
+
     implicit def mutationToOperation[B](m: Mutator[String] => B): ReaderMonad[Keyspace, B] = mutationReaderToOperation(m)
 
   }

@@ -1,13 +1,13 @@
-package monads.cassandra
+package cassandra
 
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.duration._
-import monads.cassandra.crud.nonblocking._
+import cassandra.crud.nonblocking._
 import akka.util.Timeout
 import akka.dispatch.Await
 import me.prettyprint.hector.api.Keyspace
-import monads.cassandra.simpleoperations.nonblocking
+import cassandra.simpleoperations.nonblocking
 import nonblocking._
 
 object actors{

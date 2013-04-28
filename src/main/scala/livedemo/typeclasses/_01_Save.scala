@@ -1,7 +1,7 @@
-package monads.cassandra.livedemo
+package livedemo.typeclasses
 
 import me.prettyprint.hector.api.Keyspace
-import monads.cassandra.simpleoperations.blocking._
+import cassandra.simpleoperations.blocking._
 
 case class Person(id: String, name: String, email: String, age: Int)
 

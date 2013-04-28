@@ -1,4 +1,4 @@
-package monads.cassandra
+package cassandra
 
 import me.prettyprint.hector.api.Keyspace
 
