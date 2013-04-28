@@ -1,4 +1,4 @@
-package x
+package monads.cassandra.livedemo
 
 object _02_Numeric extends App{
   //  Numeric
@@ -8,7 +8,7 @@ object _02_Numeric extends App{
   } yield num.times(e1,e2)).sum
 
 
-  println ( multiply(List(1L, 2L),List(3L, 5L) ))
-  println( multiply(List(1.2, 2.3), List(3.4, 5.3) ))
+  println ( multiply ( List(1L, 2L), List(3L, 5L) ))
+  println( multiply ( List(1.2, 2.3), List(3.4, 5.3) ))
 
 }
