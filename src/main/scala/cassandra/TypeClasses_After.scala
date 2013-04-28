@@ -40,24 +40,4 @@ object TypeClasses_After {
   }
 
   Save(Person("1234", "Adam", "a@b.com", 34))
-
-
-  /* Serializable */
-
-  trait Serializable[T] {
-    def serialize(obj: T, out: OutputStream)
-  }
-
-  def writeToFile[T](obj: T, filename: String)(implicit serializer: Serializable[T]) = {}
-
-
-//  Numeric
-  def multiply[A](vector1 : List[A], vector2 : List[A])(implicit num: Numeric[A]): A = (for{
-    e1 <- vector1
-    e2 <- vector2
-  } yield num.times(e1,e2)).sum
-
-
-  multiply(List(1L, 2L),List(3L, 5L) )
-  multiply(List(1.2, 2.3), List(3.4, 5.3) )
 }
