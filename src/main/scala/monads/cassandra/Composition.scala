@@ -1,5 +1,6 @@
 package monads.cassandra
 
+import livedemo.Person
 import me.prettyprint.hector.api.Keyspace
 import monads.cassandra.Composition_After.ReaderMonad
 import monads.cassandra.TypeClasses_After.CassandraObject

@@ -1,10 +1,10 @@
 package monads.cassandra
 
+import livedemo.Person
 import me.prettyprint.hector.api.Keyspace
 import monads.cassandra.TypeClasses_After.CassandraObject
 import akka.util.Timeout
 import monads.cassandra.crud.nonblocking._
-import monads.cassandra.Person
 import scala.Some
 import akka.actor.{ActorSystem, ActorRef}
 import akka.dispatch.Future

@@ -50,7 +50,7 @@ object simpleoperations {
       nonblocking.Get(columnFamilyId, rowId, columnNames: _*)(keyspace)
 
 
-    def Put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*)
+    def put(columnFamilyId: String, rowId: String, kvPairs: (String, String)*)
            (implicit keyspace: Keyspace) {
 //      nonblocking.mutationToOperation(nonblocking.Put(columnFamilyId, rowId, kvPairs: _*))(keyspace)
       nonblocking.Put(columnFamilyId, rowId, kvPairs: _*)(keyspace)

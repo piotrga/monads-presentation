@@ -1,18 +1,16 @@
-package monads.cassandra
+package monads.cassandra.livedemo
 
 import me.prettyprint.hector.api.Keyspace
-import me.prettyprint.hector.api.mutation.Mutator
-import java.io.{FileOutputStream, OutputStream, Externalizable, File}
+import monads.cassandra.simpleoperations.blocking._
 
 case class Person(id: String, name: String, email: String, age: Int)
 
-object TypeClasses {
-  import simpleoperations.blocking._
+object _01_Save {
 
   implicit val keyspace: Keyspace = null
 
-  def Save(p: Person)(implicit keyspace: Keyspace) {
-    Put("people", p.id,
+  def save(p: Person)(implicit keyspace: Keyspace) {
+    put("people", p.id,
       "id" -> p.id,
       "name" -> p.name,
       "email" -> p.email,
@@ -21,5 +19,5 @@ object TypeClasses {
   }
 
   val adam = Person("adam-123", "Adam", "adam@gmail.com", 34)
-  Save(adam)
+  save(adam)
 }

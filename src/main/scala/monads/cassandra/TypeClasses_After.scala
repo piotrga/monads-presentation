@@ -1,5 +1,6 @@
 package monads.cassandra
 
+import livedemo.Person
 import me.prettyprint.hector.api.Keyspace
 import java.io.OutputStream
 import me.prettyprint.hector.api.mutation.Mutator
@@ -35,7 +36,7 @@ object TypeClasses_After {
   import simpleoperations.blocking._
 
   def Save[T](p: T)(implicit keyspace: Keyspace, pco: CassandraObject[T]) {
-    Put(pco.columnFamily, pco.rowId(p), pco.marshall(p): _*)
+    put(pco.columnFamily, pco.rowId(p), pco.marshall(p): _*)
   }
 
   Save(Person("1234", "Adam", "a@b.com", 34))
