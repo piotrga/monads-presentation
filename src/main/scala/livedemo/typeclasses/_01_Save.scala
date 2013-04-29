@@ -9,7 +9,8 @@ object _01_Save {
 
   implicit val keyspace: Keyspace = null
 
-  def save(p: Person)(implicit keyspace: Keyspace) {
+  def save(p: Person)
+          (implicit keyspace: Keyspace) {
     put("people", p.id,
       "id" -> p.id,
       "name" -> p.name,
@@ -18,6 +19,16 @@ object _01_Save {
     )
   }
 
+  def read(id:String)
+          (implicit keyspace: Keyspace): Option[Person] = {
+    val d = get("people", id, "id", "name", "email", "age").toMap
+    if (d.isEmpty)
+      None
+    else
+      Some(Person(d("id"), d("name"), d("email"), d("age").toInt))
+  }
+
   val adam = Person("adam-123", "Adam", "adam@gmail.com", 34)
   save(adam)
+  read("adam-123")
 }

@@ -46,7 +46,7 @@ object simpleoperations {
 
   object blocking {
 
-    def Get(columnFamilyId: String, rowId: String, columnNames: String*)
+    def get(columnFamilyId: String, rowId: String, columnNames: String*)
            (implicit keyspace: Keyspace): Map[String, String] =
       nonblocking.Get(columnFamilyId, rowId, columnNames: _*)(keyspace)
 

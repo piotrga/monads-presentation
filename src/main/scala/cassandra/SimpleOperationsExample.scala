@@ -7,7 +7,7 @@ object SimpleOperationsExample{
 
   implicit val keyspace = Cassandra.initKeyspace
 
-  val joe = Get("people", "joe-123", "name", "age")
+  val joe = get("people", "joe-123", "name", "age")
   assert ( joe("age") == "25")
 
 }
