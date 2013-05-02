@@ -1,4 +1,4 @@
-package livedemo.typeclasses
+package livedemo._02_typeclasses
 
 import java.io.{FileOutputStream, File, OutputStream}
 
@@ -20,7 +20,7 @@ trait Serializable[T] {
   def write(obj: T, out: OutputStream)
 }
 
-object _03_Serialization{
+object _03_Serialization extends App{
 
   def writeToFile[T](filename: String, obj: T)(implicit serializer: Serializable[T]) {
     val out = new FileOutputStream(filename)
@@ -32,7 +32,7 @@ object _03_Serialization{
   }
 
   import JsonProtocol._
-  writeToFile("/tmp/demo.txt", Address("11A", "South Colonnade", "E14 4BY"))
+  writeToFile("demo.txt", Address("11A", "South Colonnade", "E14 4BY"))
 
 
 }

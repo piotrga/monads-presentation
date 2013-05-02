@@ -1,4 +1,4 @@
-package livedemo.implicits
+package livedemo._01_implicits
 
 import akka.util.Duration
 import akka.util.duration._

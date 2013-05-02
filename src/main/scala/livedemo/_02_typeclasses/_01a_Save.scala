@@ -1,11 +1,11 @@
-package livedemo.typeclasses
+package livedemo._02_typeclasses
 
 import me.prettyprint.hector.api.Keyspace
 import cassandra.simpleoperations.blocking._
+import livedemo.Person
 
-case class Person(id: String, name: String, email: String, age: Int)
 
-object _01_Save {
+object _01a_Save {
 
   implicit val keyspace: Keyspace = null
 
@@ -19,16 +19,7 @@ object _01_Save {
     )
   }
 
-  def read(id:String)
-          (implicit keyspace: Keyspace): Option[Person] = {
-    val d = get("people", id, "id", "name", "email", "age").toMap
-    if (d.isEmpty)
-      None
-    else
-      Some(Person(d("id"), d("name"), d("email"), d("age").toInt))
-  }
-
   val adam = Person("adam-123", "Adam", "adam@gmail.com", 34)
   save(adam)
-  read("adam-123")
 }
+

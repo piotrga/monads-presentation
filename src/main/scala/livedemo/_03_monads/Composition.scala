@@ -1,9 +1,8 @@
-package cassandra
+package livedemo._03_monads
 
-import livedemo.typeclasses.Person
 import me.prettyprint.hector.api.Keyspace
-import cassandra.Composition_After.ReaderMonad
-import cassandra.TypeClasses_After.CassandraObject
+import cassandra.Cassandra
+import livedemo.Person
 
 
 object Composition {

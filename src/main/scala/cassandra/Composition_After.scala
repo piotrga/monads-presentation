@@ -1,6 +1,6 @@
 package cassandra
 
-import livedemo.typeclasses.Person
+import livedemo._02_typeclasses.Person
 import me.prettyprint.hector.api.Keyspace
 import cassandra.TypeClasses_After.CassandraObject
 import akka.util.Timeout

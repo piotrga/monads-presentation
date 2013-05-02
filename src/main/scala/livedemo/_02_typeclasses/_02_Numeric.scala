@@ -1,4 +1,4 @@
-package livedemo.typeclasses
+package livedemo._02_typeclasses
 
 object _02_Numeric extends App{
   //  Numeric
