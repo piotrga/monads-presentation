@@ -1,9 +1,9 @@
 package cassandra
 
-import livedemo._02_typeclasses.Person
 import me.prettyprint.hector.api.Keyspace
 import java.io.OutputStream
 import me.prettyprint.hector.api.mutation.Mutator
+import livedemo.Person
 
 object TypeClasses_After {
   implicit val keyspace: Keyspace = null

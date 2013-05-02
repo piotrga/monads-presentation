@@ -1,6 +1,5 @@
 package cassandra
 
-import livedemo._02_typeclasses.Person
 import me.prettyprint.hector.api.Keyspace
 import cassandra.TypeClasses_After.CassandraObject
 import akka.util.Timeout
@@ -8,6 +7,7 @@ import cassandra.crud.nonblocking._
 import scala.Some
 import akka.actor.{ActorSystem, ActorRef}
 import akka.dispatch.Future
+import livedemo.Person
 
 object Composition_After {
 

@@ -1,6 +1,6 @@
 package livedemo._02_typeclasses
 
-object _02_Numeric extends App{
+object _03_Numeric extends App{
   //  Numeric
   def multiply[A](vector1 : List[A], vector2 : List[A])(implicit num: Numeric[A]): A = (for{
     e1 <- vector1
