@@ -28,6 +28,10 @@ object _05_OtherMonads extends App{
   // Collections
 
   List(1,2,3,4).map(a => a*a) // List(1, 4, 9, 16)
-  List(1,2,3).flatMap(a => (1 to a).map(_ => a) ) // List(1, 2, 2, 3, 3, 3)
+  List(1,2,3).flatMap(a => List.fill(a)(a*a) ) // List(1, 4, 4, 9, 9, 9)
+
+  // Implicit conversion: Option -> Iterable
+  // 1 -> Some(100), 2 -> Some(200), 3 -> None
+  List("1","2","3").flatMap(id => readBalance(id) ).sum // 300
 
 }
