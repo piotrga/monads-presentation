@@ -2,8 +2,6 @@ package livedemo._03_monads
 
 import me.prettyprint.hector.api.Keyspace
 import livedemo.Person
-import cassandra.TypeClasses_After.CassandraObject
-import cassandra.simpleoperations
 
 
 object _01_AndThen {
