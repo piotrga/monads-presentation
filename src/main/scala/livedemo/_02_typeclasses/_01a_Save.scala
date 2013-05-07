@@ -21,5 +21,9 @@ object _01a_Save {
 
   val adam = Person("adam-123", "Adam", "adam@gmail.com", 34)
   save(adam)
+
+  //  case class Account(id:String, balance:Double)
+  //  save(Account("123", 1000))
+
 }
 
