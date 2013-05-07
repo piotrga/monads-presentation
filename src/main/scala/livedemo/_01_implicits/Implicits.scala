@@ -10,11 +10,13 @@ object Implicits{
   def f2{/*...*/}
   def f3{/*...*/}
 
-  def await(obj: => Any, timeout: Duration){/*...*/}
+  def await(obj: => Any)(implicit timeout: Duration){/*...*/}
 
-  await (f1, 10 seconds)
-  await (f2, 10 seconds)
-  await (f3, 10 seconds)
-  await (f1, 10 seconds)
+  implicit val timeout = 10 seconds
+
+  await (f1)
+  await (f2)
+  await (f3)
+  await (f1)
 
 }
