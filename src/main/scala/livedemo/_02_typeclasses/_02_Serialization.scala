@@ -32,6 +32,7 @@ object _03_Serialization extends App{
   }
 
   import JsonProtocol._
+//  import XmlProtocol._
   writeToFile("demo.txt", Address("11A", "South Colonnade", "E14 4BY"))
 
 

@@ -3,18 +3,21 @@ package livedemo._03_monads
 import me.prettyprint.hector.api.Keyspace
 
 object Monad {
-  trait Monad[A]{ self =>
-    def execute(k: Keyspace): A
-    def >>[B](action: Monad[B]) = flatMap(_ => action)
-    def flatMap[B](f: A => Monad[B]) = new Monad[B] {
-      def execute(k: Keyspace) : B = f(self.execute(k)).execute(k)
-    }
-    def map[B](f:A=>B) : Monad[B] = new Monad[B] {
-      def execute(k: Keyspace) = f(self.execute(k))
-    }
+
+  implicit def FunctionToMonad[R, T](f: R => T) = new Monad[R, T] {
+    def apply(r: R) = f(r)
   }
 
-  def Read[T](id:String) : Monad[Option[T]] = null
-  def Save[T](o:T) : Monad[Unit] = null
+  trait Monad[R, A]{ self =>
+    def apply(k: R): A
+    def >>[B](action: Monad[R, B]) = flatMap(_ => action)
+    def flatMap[B](f: A => Monad[R, B]) : Monad[R,B] = (k: R) => f(self(k))(k)
+    def map[B](f:A=>B) : Monad[R, B] = (r: R) => f(self(r))
+
+  }
+  type CassandraMonad[A] = Monad[Keyspace, A]
+
+  def Read[T](id:String) : CassandraMonad[Option[T]] = null
+  def Save[T](o:T) : CassandraMonad[Unit] = null
 
 }

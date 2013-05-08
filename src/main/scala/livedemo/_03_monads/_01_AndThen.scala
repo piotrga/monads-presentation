@@ -2,6 +2,8 @@ package livedemo._03_monads
 
 import me.prettyprint.hector.api.Keyspace
 import livedemo.Person
+import cassandra.crud.blocking
+import cassandra.TypeClasses_After.CassandraObject
 
 
 object _01_AndThen {
@@ -10,8 +12,12 @@ object _01_AndThen {
     def execute(k: Keyspace): A
   }
 
-  case class Save[A](p:A) extends Action[Unit]{
-    def execute(k: Keyspace) {/*...*/}
+  case class Save[T](p:T)(implicit co:CassandraObject[T])
+    extends Action[Unit]{
+
+    def execute(k: Keyspace) {
+      blocking.Save(p)(k, co)
+    }
   }
 
   val joe = Person("1", "joe", "joe@gmail.com", 10)
