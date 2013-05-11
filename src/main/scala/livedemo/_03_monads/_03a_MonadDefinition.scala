@@ -20,3 +20,18 @@ class _03a_MonadDefinition {
 
 
 }
+class _03bFunctorDefinition{
+
+  trait Functor[A]{
+    def map[B](f : A => B ): Functor[B]
+  }
+
+
+  trait Monad[A] extends Functor[A]{
+    def unit[B](a: B) : Monad[B]
+    def flatMap[B](f: A => Monad[B]) : Monad[B]
+
+    def map[B](f: (A) => B) = flatMap(a => unit(f(a)))
+  }
+
+}

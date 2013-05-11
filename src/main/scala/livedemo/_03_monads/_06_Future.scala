@@ -7,13 +7,13 @@ import akka.util.duration._
 object _06_Future extends App{
   implicit val system = ActorSystem()
 
-  def fetchFacebookFriends(): Set[String] = {
+  def fetchFacebookFriends(): Future[Set[String]] = {
     Set()
   }
-  def fetchTwitterFriends(): Set[String] = {
+  def fetchTwitterFriends(): Future[Set[String]] = {
     Set()
   }
-  def fetchCurrentFriends(): Set[String] = {
+  def fetchCurrentFriends(): Future[Set[String]] = {
     Set()
   }
 
@@ -21,12 +21,12 @@ object _06_Future extends App{
     case nf => ()
   }
 
-  val newFriendsFuture : Future[Set[String]] = for {
-    facebookFriends <- Future{ fetchFacebookFriends() }
-    twitterFriends <- Future{ fetchTwitterFriends() }
-    currentFriends <- Future{ fetchCurrentFriends() }
+  val calculateNewFriends : Future[Set[String]] = for {
+    facebookFriends <-  fetchFacebookFriends()
+    twitterFriends <-  fetchTwitterFriends()
+    currentFriends <-  fetchCurrentFriends()
   } yield (facebookFriends ++ twitterFriends) -- currentFriends
 
-  newFriendsFuture onSuccess saveNewFriends
+  calculateNewFriends onSuccess saveNewFriends
 
 }
