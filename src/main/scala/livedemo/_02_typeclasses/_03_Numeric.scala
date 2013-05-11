@@ -2,7 +2,8 @@ package livedemo._02_typeclasses
 
 object _03_Numeric extends App{
 
-  def multiply[A](vector1 : List[A], vector2 : List[A])(implicit num: Numeric[A]): A = (
+  def multiply[A](vector1 : List[A], vector2 : List[A])
+                 (implicit num: Numeric[A]): A = (
     for {
       e1 <- vector1
       e2 <- vector2

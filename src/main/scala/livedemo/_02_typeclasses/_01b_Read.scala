@@ -13,6 +13,8 @@ object _01b_Read{
     def rowId(p: T): String
     def columnFamily: String
   }
+
+
   implicit object PersonCO extends CassandraObject[Person]{
     def marshall(p: Person): List[(String, String)] = List(
       "id" -> p.id,

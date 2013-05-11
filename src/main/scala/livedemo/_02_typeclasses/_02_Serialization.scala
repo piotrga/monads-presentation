@@ -11,9 +11,14 @@ object JsonProtocol{
           'houseNumber' : '%s',
           'street' : '%s',
           'postCode' : '%s'
-          }""".format(obj.houseNumber, obj.postCode, obj.street).getBytes("UTF-8"))
+          }""".format(obj.houseNumber, obj.postCode, obj.street)
+        .getBytes("UTF-8"))
     }
   }
+}
+
+object XmlProtocol{
+  val x = 10
 }
 
 trait Serializable[T] {
@@ -22,7 +27,8 @@ trait Serializable[T] {
 
 object _03_Serialization extends App{
 
-  def writeToFile[T](filename: String, obj: T)(implicit serializer: Serializable[T]) {
+  def writeToFile[T](filename: String, obj: T)
+                    (implicit serializer: Serializable[T]) {
     val out = new FileOutputStream(filename)
     try{
       serializer.write(obj, out)
@@ -31,9 +37,18 @@ object _03_Serialization extends App{
     }
   }
 
+
   import JsonProtocol._
-//  import XmlProtocol._
   writeToFile("demo.txt", Address("11A", "South Colonnade", "E14 4BY"))
+
+
+  import XmlProtocol._
+  writeToFile("demo.txt", Address("11A", "South Colonnade", "E14 4BY"))
+
+
+  println(x)
+
+
 
 
 }
