@@ -17,6 +17,11 @@ object _02_FlatMap {
     }
   }
 
+  case class Save[T](p:T) extends Action[Unit]{
+    def execute(k: Keyspace) {
+      sys.error("not implemented")
+    }
+  }
   case class Read[T](id:String) extends Action[Option[T]]  {
     def execute(k: Keyspace) : Option[T] = sys.error("not implemented")
   }
